@@ -7,29 +7,7 @@ export const addAnime = async (req, res) => {
         const { Name, English_Name, Score, Genres, Synopsis, Type, Episodes, Aired, Status, Producers, Licensors, Studios, Source, Duration, Old, Favorites, Scored_By, Members, Image_URL, JapaneseLevel, LastestEpisodeAired } = req.body;
 
         // Tạo đối tượng anime mà không cần Anime_id trong body
-        const anime = new Anime({
-            Name,
-            English_Name,
-            Score,
-            Genres,
-            Synopsis,
-            Type,
-            Episodes,
-            Aired,
-            Status,
-            Producers,
-            Licensors,
-            Studios,
-            Source,
-            Duration,
-            Old,
-            Favorites,
-            Scored_By,
-            Members,
-            Image_URL,
-            JapaneseLevel,
-            LastestEpisodeAired
-        });
+        const anime = new Anime(req.body);
 
         // Lưu anime vào cơ sở dữ liệu
         const savedAnime = await anime.save();

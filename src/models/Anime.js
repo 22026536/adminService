@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const animeSchema = new mongoose.Schema({
   Anime_id	:{ type: Number, unique: true , index: true},
   Name: { type: String, required: true },
-  English_Name: { type: String, required: true },
+  "English name": { type: String, required: true },
   Score: { type: Number, required: true },
   Genres : [{ type: String, required: true }],
   Synopsis: { type: String, required: true },
@@ -18,9 +18,9 @@ const animeSchema = new mongoose.Schema({
   Duration: { type: String, required: true },
   Old: { type: String, required: true },
   Favorites: { type: Number, required: true  },
-  Scored_By: { type: Number, required: true  },
-  Members: { type: Number, required: true  },
-  Image_URL:{ type: String, required: true  },
+  "Scored By": { type: Number, required: true  },
+  Member: { type: Number, required: true  },
+  "Image URL":{ type: String, required: true  },
   JapaneseLevel: {type: String, required: true},
   LastestEpisodeAired: {type: Date, required: true}
 }, {
