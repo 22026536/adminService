@@ -81,7 +81,7 @@ export const deletedUser = async (req, res) => {
 }
 
 export const getUser = async (req, res) => {
-    const users = await User.find();
+    const users = await User.find().select('user_id full_name user_img email phone_number sex date_of_birth role japanese_level');
     res.json(users);
 }
 
