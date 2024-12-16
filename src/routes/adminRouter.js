@@ -1,6 +1,6 @@
 // Import các thư viện cần thiết
 import express from 'express';
-import { addAnime, addEpisode, addUser, deletedAnime, deletedEpisode, deletedUser, getAnime, getUser, getUserByName, updatedAnime, updatedEpisode, updatedUser } from '../controllers';
+import { addAnime, addEpisode, addUser, deletedAnime, deletedEpisode, deletedUser, getAnime, getUser, getUserByName, updatedAnime, updatedEpisode, updatedUser } from '../controllers/index.js';
 
 const router = express.Router();
 
