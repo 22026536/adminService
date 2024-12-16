@@ -4,13 +4,42 @@ import User from '../models/User.js';
 
 export const addAnime = async (req, res) => {
     try {
-        const anime = new Anime(req.body);
+        const { Name, English_Name, Score, Genres, Synopsis, Type, Episodes, Aired, Status, Producers, Licensors, Studios, Source, Duration, Old, Favorites, Scored_By, Members, Image_URL, JapaneseLevel, LastestEpisodeAired } = req.body;
+
+        // Tạo đối tượng anime mà không cần Anime_id trong body
+        const anime = new Anime({
+            Name,
+            English_Name,
+            Score,
+            Genres,
+            Synopsis,
+            Type,
+            Episodes,
+            Aired,
+            Status,
+            Producers,
+            Licensors,
+            Studios,
+            Source,
+            Duration,
+            Old,
+            Favorites,
+            Scored_By,
+            Members,
+            Image_URL,
+            JapaneseLevel,
+            LastestEpisodeAired
+        });
+
+        // Lưu anime vào cơ sở dữ liệu
         const savedAnime = await anime.save();
+
         res.json({ anime: savedAnime, success: true });
     } catch (error) {
         res.json({ message: error.message, success: false });
     }
 };
+
 
 export const updatedAnime = async (req, res) => {
     try {
@@ -34,19 +63,26 @@ export const deletedAnime = async (req, res) => {
 
 export const addEpisode = async (req, res) => {
     try {
-        const animeId = req.params.anime_id;
+        const animeId = req.params.anime_id;  // Lấy Anime_id từ URL
         const newEpisode = new AnimeEpisode({
-            ...req.body,
-            Anime_id: animeId,
-            Aired: Date.now()
+            ...req.body,  // Lấy tất cả thông tin từ body mà không cần có Episode_id
+            Anime_id: animeId,  // Gán Anime_id vào Episode
+            Aired: Date.now()  // Gán ngày phát sóng hiện tại
         });
-        const savedEpisode = await newEpisode.save();
-        await Anime.findOneAndUpdate({ Anime_id: animeId }, { LastestEpisodeAired: savedEpisode.Aired });
+        const savedEpisode = await newEpisode.save();  // Lưu episode vào DB
+
+        // Cập nhật LastestEpisodeAired trong bảng Anime
+        await Anime.findOneAndUpdate(
+            { Anime_id: animeId },
+            { LastestEpisodeAired: savedEpisode.Aired }
+        );
+
         res.json({ episode: savedEpisode, success: true });
     } catch (error) {
         res.json({ message: error.message, success: false });
     }
 };
+
 
 export const updatedEpisode = async (req, res) => {
     try {
@@ -78,13 +114,15 @@ export const deletedEpisode = async (req, res) => {
 
 export const addUser = async (req, res) => {
     try {
-        const user = new User(req.body);
-        const savedUser = await user.save();
+        const user = new User(req.body);  // Tạo mới người dùng từ dữ liệu trong body
+        const savedUser = await user.save();  // Lưu người dùng vào DB
+
         res.json({ user: savedUser, success: true });
     } catch (error) {
         res.json({ message: error.message, success: false });
     }
 };
+
 
 export const updatedUser = async (req, res) => {
     try {

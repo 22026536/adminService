@@ -5,7 +5,7 @@ import AutoIncrementFactory from 'mongoose-sequence';
 const AutoIncrement = AutoIncrementFactory(mongoose);
 
 const userSchema = new mongoose.Schema({
-    user_id: { type:Number, require: true,unique: true , index: true}, // Tự động tạo
+    user_id: { type:Number,unique: true , index: true}, // Tự động tạo
     user_name: { type: String, required: true },
     password : { type: String, required: true },
     user_img : { type: String, default: null },
