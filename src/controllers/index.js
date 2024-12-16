@@ -5,19 +5,24 @@ import User from '../models/User.js';
 export const addAnime = async (req, res) => {
     const anime = new Anime(req.body);
     const savedAnime = await anime.save();
-    res.json(savedAnime);
+    res.json({
+        anime: savedAnime,
+        success: true
+    });
 }
 
 export const updatedAnime = async (req, res) => {
     const updatedAnime = await Anime.findOneAndUpdate({ Anime_id: req.params.anime_id }, req.body, { new: true });
     if (!updatedAnime) return res.status(404).json({ message: 'Anime không tồn tại' });
-    res.json(updatedAnime);
+    res.json({
+        anime: updatedAnime,
+    success: true});
 }
 
 export const deletedAnime = async (req, res) => {
     const deletedAnime = await Anime.findOneAndDelete({ Anime_id: req.params.anime_id });
     if (!deletedAnime) return res.status(404).json({ message: 'Anime không tồn tại' });
-    res.json({ message: 'Xóa thành công' });
+    res.json({ message: 'Xóa thành công', success: true });
 }
 
 export const addEpisode = async (req, res) => {
@@ -25,17 +30,18 @@ export const addEpisode = async (req, res) => {
 
     // Tạo tập mới
     // Tạo tập mới với thời gian Aired tự động
-    const newEpisode = new AnimeEpisode({ 
-        ...req.body, 
-        Anime_id: animeId, 
+    const newEpisode = new AnimeEpisode({
+        ...req.body,
+        Anime_id: animeId,
         Aired: Date.now() // Lấy thời gian hiện tại
     });
     const savedEpisode = await newEpisode.save();
 
     // Cập nhật thời gian ra tập mới nhất của Anime
-    await Anime.findOneAndUpdate({Anime_id : animeId}, { LastestEpisodeAired: savedEpisode.Aired });
+    await Anime.findOneAndUpdate({ Anime_id: animeId }, { LastestEpisodeAired: savedEpisode.Aired });
 
-    res.json(savedEpisode);
+    res.json({
+        episode: savedEpisode, success: true});
 }
 
 export const updatedEpisode = async (req, res) => {
@@ -59,25 +65,25 @@ export const deletedEpisode = async (req, res) => {
     const deletedEpisode = await AnimeEpisode.findOneAndDelete({ Anime_id: animeId, Episode_id: episodeId });
 
     if (!deletedEpisode) return res.status(404).json({ message: 'Tập không tồn tại' });
-    res.json({ message: 'Xóa tập thành công' });
+    res.json({ message: 'Xóa tập thành công', success: true });
 }
 
 export const addUser = async (req, res) => {
     const user = new User(req.body);
     const savedUser = await user.save();
-    res.json(savedUser);
+    res.json({user: savedUser, success: true});
 }
 
 export const updatedUser = async (req, res) => {
     const updatedUser = await User.findOneAndUpdate({ user_id: req.params.user_id }, req.body, { new: true });
     if (!updatedUser) return res.status(404).json({ message: 'User không tồn tại' });
-    res.json(updatedUser);
+    res.json({user: updatedUser, success:true});
 }
 
 export const deletedUser = async (req, res) => {
     const deletedUser = await User.findOneAndDelete({ user_id: req.params.user_id });
     if (!deletedUser) return res.status(404).json({ message: 'User không tồn tại' });
-    res.json({ message: 'Xóa thành công' });
+    res.json({ message: 'Xóa thành công', success: true });
 }
 
 export const getUser = async (req, res) => {
