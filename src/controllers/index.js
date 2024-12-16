@@ -24,7 +24,12 @@ export const addEpisode = async (req, res) => {
     const animeId = req.params.anime_id;
 
     // Tạo tập mới
-    const newEpisode = new AnimeEpisode({ ...req.body, Anime_id: animeId });
+    // Tạo tập mới với thời gian Aired tự động
+    const newEpisode = new AnimeEpisode({ 
+        ...req.body, 
+        Anime_id: animeId, 
+        Aired: Date.now() // Lấy thời gian hiện tại
+    });
     const savedEpisode = await newEpisode.save();
 
     // Cập nhật thời gian ra tập mới nhất của Anime
@@ -73,4 +78,20 @@ export const deletedUser = async (req, res) => {
     const deletedUser = await User.findOneAndDelete({ user_id: req.params.user_id });
     if (!deletedUser) return res.status(404).json({ message: 'User không tồn tại' });
     res.json({ message: 'Xóa thành công' });
+}
+
+export const getUser = async (req, res) => {
+    const users = await User.find();
+    res.json(users);
+}
+
+export const getUserByName = async (req, res) => {
+    const name = req.params.name;
+    const users = await User.find({ full_name: { $regex: name, $options: 'i' } });
+    res.json(users);
+}
+
+export const getAnime = async (req, res) => {
+    const animes = await Anime.find();
+    res.json(animes);
 }
