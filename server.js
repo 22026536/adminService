@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(json());
 app.set('trust proxy', 1);
 app.use(cookieParser());
-app.use('/anime', routerAdmin);
+app.use('/admin', routerAdmin);
 
 // Kết nối MongoDB
 mongoose.connect(MONGO_URI, {
