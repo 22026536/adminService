@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv from 'dotenv';
 import express, { json } from 'express';
 import mongoose from 'mongoose';
-import routerAdmin from './src/routes/adminRouter';
+import routerAdmin from './src/routes/adminRouter.js';
 
 
 dotenv.config();
