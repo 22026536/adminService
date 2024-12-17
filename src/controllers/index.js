@@ -149,3 +149,55 @@ export const getAnime = async (req, res) => {
         res.json({ message: error.message, success: false });
     }
 };
+
+
+import { isTokenExpired, verifyToken } from '../middlewares/JWT.js';
+
+// Lấy thông tin người dùng
+export const userInfo = async (req, res) => {
+    try {
+        const token = req.body.jwt
+        if (!token) {
+            return res.json({
+                message: "Người dùng chưa đăng nhập",
+                success: false
+            });
+        }
+
+        if (isTokenExpired(token)) {
+            return res.json({
+                message: "Người dùng hết phiên đăng nhập",
+                success: false
+            });
+        }
+
+        const decoded = verifyToken(token);
+        const user_id = decoded.id;
+        // Tìm người dùng bằng user_id trong MongoDB
+        const user = await User.findOne({ user_id: user_id }).select(
+            'user_img email phone_number full_name sex date_of_birth japanese_level role'
+        );
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User không tồn tại",
+                success: false
+            });
+        }
+        if(user.role == 0) {
+            return res.json({
+                message: "not admin",
+                success: false
+            })
+        }
+
+        res.json({
+            userInfo: user,
+            success: true
+        });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Internal server error", error: error.message });
+    }
+};

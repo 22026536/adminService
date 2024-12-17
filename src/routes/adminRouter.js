@@ -1,6 +1,6 @@
 // Import các thư viện cần thiết
 import express from 'express';
-import { addAnime, addEpisode, addUser, deletedAnime, deletedEpisode, deletedUser, getAnime, getUser, getUserByName, updatedAnime, updatedEpisode, updatedUser } from '../controllers/index.js';
+import { addAnime, addEpisode, addUser, deletedAnime, deletedEpisode, deletedUser, getAnime, getUser, getUserByName, updatedAnime, updatedEpisode, updatedUser, userInfo } from '../controllers/index.js';
 
 const router = express.Router();
 
@@ -39,4 +39,5 @@ router.get('/user/search/:name', getUserByName);
 // 11. Lấy toàn bộ Anime
 router.get('/anime', getAnime);
 
+router.post("/userinfo",userInfo)
 export default router;
