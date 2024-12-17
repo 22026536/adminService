@@ -19,7 +19,7 @@ const animeSchema = new mongoose.Schema({
   Old: { type: String, required: true },
   Favorites: { type: Number, required: true  },
   "Scored By": { type: Number, required: true  },
-  Member: { type: Number, required: true  },
+  Members: { type: Number, required: true  },
   "Image URL":{ type: String, required: true  },
   JapaneseLevel: {type: String, required: true},
   LastestEpisodeAired: {type: Date, required: true}
